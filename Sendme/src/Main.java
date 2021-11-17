@@ -3,7 +3,7 @@ import java.net.*;
 import javax.swing.*;
 
 public class Main extends Thread{
-	//Author selvaraji and snega
+	//Authors selvaraji and snega
 	static String filename,path,ip,iptemp,ipa;
 	static boolean conected=false;
 	static long length,sending;

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Employee {
-	static ArrayList<String> arrayList = new ArrayList<>();  //logs
+	//logs ArrayList
+	static ArrayList<String> arrayList = new ArrayList<>();
 	static int noOfLogs = 0;
 	 
+	//Employee LinkedList.
 	public  static LinkedList<Employee> employeeLinkedList = new LinkedList<Employee>();
 	private String employeeID, employeeName, employeeDateOfBirth, employeeDateOfJoin, employeePhoneNumber,employeeEmailID;
 	

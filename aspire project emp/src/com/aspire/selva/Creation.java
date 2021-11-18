@@ -176,7 +176,7 @@ public class Creation{
 			}
 			
 		//new Employee(employeeID, employeeName, dateOfBirth, dateOfJoin, phoneNumber, email);
-		Employee.EmployeeArrayList.add(new Employee(employeeID, employeeName, dateOfBirth, dateOfJoin, phoneNumber, email));
+		Employee.employeeLinkedList.add(new Employee(employeeID, employeeName, dateOfBirth, dateOfJoin, phoneNumber, email));
 		return employeeID;
 		//scan.close();
 	}

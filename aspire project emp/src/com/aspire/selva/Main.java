@@ -142,7 +142,7 @@ public class Main extends Thread {
 			
 			while(databaseData.next())
 			{
-				Employee.EmployeeArrayList.add(new Employee(databaseData.getString(1), databaseData.getString(2), databaseData.getString(3), databaseData.getString(4), databaseData.getString(5), databaseData.getString(6)));
+				Employee.employeeLinkedList.add(new Employee(databaseData.getString(1), databaseData.getString(2), databaseData.getString(3), databaseData.getString(4), databaseData.getString(5), databaseData.getString(6)));
 			}
 		} catch (ClassNotFoundException exception) {
 		exception.printStackTrace();

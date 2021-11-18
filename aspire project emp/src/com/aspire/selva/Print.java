@@ -8,7 +8,7 @@ public class Print {
 	{
 		int count = 0;
 		//ArrayList Print
-		for(Employee employee : Employee.EmployeeArrayList)
+		for(Employee employee : Employee.employeeLinkedList)
 		{
 			System.out.println("************************************************");
 			System.out.printf("Employee                   : %d\n", ++count);

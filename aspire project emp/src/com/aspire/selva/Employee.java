@@ -3,13 +3,16 @@ package com.aspire.selva;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Employee {
 	static ArrayList<String> arrayList = new ArrayList<>();  //logs
 	static int noOfLogs = 0;
 	 
-	public  static ArrayList<Employee> EmployeeArrayList = new ArrayList<Employee>();
+	public  static LinkedList<Employee> employeeLinkedList = new LinkedList<Employee>();
 	private String employeeID, employeeName, employeeDateOfBirth, employeeDateOfJoin, employeePhoneNumber,employeeEmailID;
+	
+	
 	
 	//default constructor.
 	Employee()
@@ -26,7 +29,6 @@ public class Employee {
 		employeeDateOfJoin = empDateOfJoin;
 		employeePhoneNumber = empPhoneNumber;
 		employeeEmailID = employeeEmail;
-	
 		
 		if (!(empID.equals(null)) && Main.databaseLoadFlag == true) {
 			try {

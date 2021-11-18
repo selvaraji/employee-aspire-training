@@ -8,7 +8,8 @@ public class Employee {
 	static ArrayList<String> arrayList = new ArrayList<>();  //logs
 	static int noOfLogs = 0;
 	 
-	//public  ArrayList<Employee> EmployeeArrayList = new ArrayList<Employee>(); 
+	public  static ArrayList<Employee> EmployeeArrayList = new ArrayList<Employee>();
+	private String employeeID, employeeName, employeeDateOfBirth, employeeDateOfJoin, employeePhoneNumber,employeeEmailID;
 	
 	//default constructor
 	Employee()
@@ -18,12 +19,21 @@ public class Employee {
 	
 	Employee(String empID, String empName, String empDateOfBirth, String empDateOfJoin, String empPhoneNumber, String employeeEmail)
 	{
-		if (!(empID.equals(null))) {
+		//ArrayList Object Initialization
+		employeeID = empID;
+		employeeName = empName;
+		employeeDateOfBirth = empDateOfBirth;
+		employeeDateOfJoin = empDateOfJoin;
+		employeePhoneNumber = empPhoneNumber;
+		employeeEmailID = employeeEmail;
+	
+		
+		if (!(empID.equals(null)) && Main.databaseLoadFlag == true) {
 			try {
 				String query = "INSERT INTO EMPLOYEE VALUES(\"" + empID + "\",\"" + empName + "\",\"" + empDateOfBirth
 						+ "\",\"" + empDateOfJoin + "\",\"" + empPhoneNumber + "\",\"" + employeeEmail + "\");";
-				int rs = Main.statement.executeUpdate(query);
-				System.out.println(rs);
+				Main.statement.executeUpdate(query);
+				//System.out.println(rs);
 				
 			} catch (SQLIntegrityConstraintViolationException exception) {
 				System.out.println("Employee ID Already Used Try Unique :");
@@ -34,7 +44,7 @@ public class Employee {
 	}
   
 	
-	void setName(String name, String id)
+	public void setName(String name, String id)
 	{
 		try
 		{
@@ -48,8 +58,12 @@ public class Employee {
 
 	}
 	
+	public String  getName()
+	{
+		return employeeName;
+	}
 	
-	void setEmpId(String employee_ID, String id)
+	public void setEmpId(String employee_ID, String id)
 	{
 		try
 		{
@@ -63,8 +77,12 @@ public class Employee {
 
 	}
 	
+	public String  getEmpID()
+	{
+		return employeeID;
+	}
 	
-	void setDob(String date_Of_Birth, String id)
+	public void setDob(String date_Of_Birth, String id)
 	{
 		try
 		{
@@ -79,8 +97,12 @@ public class Employee {
 
 	}
 	
+	public String  getDOB()
+	{
+		return employeeDateOfBirth;
+	}
 
-	void setDoj(String date_of_join, String id)
+	public void setDoj(String date_of_join, String id)
 	{
 		try
 		{
@@ -95,8 +117,12 @@ public class Employee {
 
 	}
 	
+	public String  getDOJ()
+	{
+		return employeeDateOfJoin;
+	}
 	
-	void setPno(String phone_number, String id)
+	public void setPno(String phone_number, String id)
 	{
 		try
 		{
@@ -111,8 +137,12 @@ public class Employee {
 
 	}
 	
+	public String  getPno()
+	{
+		return employeePhoneNumber;
+	}
 	
-	void setEmail(String employeeEmail, String id)
+	public void setEmail(String employeeEmail, String id)
 	{
 		try
 		{
@@ -124,6 +154,11 @@ public class Employee {
 		{
 			exception.printStackTrace();
 		}
+	}
+	
+	public String  getEmail()
+	{
+		return employeeEmailID;
 	}
 	
 }

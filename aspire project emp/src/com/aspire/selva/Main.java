@@ -12,15 +12,17 @@ package com.aspire.selva;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 
-public class Main{
+public class Main extends Thread {
 	public static Statement statement;
-	
+	public static ResultSet databaseData;
+	public static boolean databaseLoadFlag = false;
 	public static void main(String[] args) {
 		startMenu();
 	}
@@ -29,19 +31,9 @@ public class Main{
 		int choice = 0;
 		Scanner scanner = new Scanner (System.in);
 		System.out.println("Welcome to Employee Management System :");
-		System.out.println("Please Wait Database Will Be Connect :");
-		
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3377/db","root","tamilanda");  
-			statement = connection.createStatement(); 
-		
-		} catch (ClassNotFoundException exception) {
-			exception.printStackTrace();
-		} catch (SQLException exception) {
-			exception.printStackTrace();
-		}
-		System.out.println("Database Connected :");
+		//new data thread
+		Main dataRetrivalThread = new Main();
+		dataRetrivalThread.start();
 		
 		while(choice != 6)
 		{
@@ -83,22 +75,28 @@ public class Main{
 					break;
 					
 				case 4:
-					System.out.println("1.Print All Employee Details:");
+					System.out.println("1.Print All Employee Details :");
 					System.out.println("2.Print Particular Employee Details :");
-					
 					int printChoice = Integer.parseInt(scanner.nextLine());
-					Print print = new Print();
-					if(printChoice == 2)
+					if(databaseLoadFlag == false)
 					{
-						System.out.println("Enter Employee ID :");
-						String printEmpID = scanner.nextLine();
-						print.printEmployee(printEmpID);
+						System.out.println("Please wait database will be connect :");
 					}
-					else if(printChoice == 1)
+					else
 					{
-						print.printEmployee("flag");
+						Print print = new Print();
+						if(printChoice == 2)
+						{
+							System.out.println("Enter Employee ID :");
+							String printEmpID = scanner.nextLine();
+							print.printEmployee(printEmpID);
+						}
+						else if(printChoice == 1)
+						{
+							print.printEmployee("flag");
+						}
+						System.out.println("************************************************");
 					}
-					System.out.println("************************************************");
 					break;
 					
 				case 5:
@@ -130,6 +128,32 @@ public class Main{
 			
 		}
 		scanner.close();
+	}
+	
+	public void run()
+	{
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3377/db","root","tamilanda");  
+			statement = connection.createStatement(); 
+			Statement state = connection.createStatement();
+			String queryAll = "SELECT * FROM EMPLOYEE";
+			databaseData  = state.executeQuery(queryAll);
+			
+			while(databaseData.next())
+			{
+				Employee.EmployeeArrayList.add(new Employee(databaseData.getString(1), databaseData.getString(2), databaseData.getString(3), databaseData.getString(4), databaseData.getString(5), databaseData.getString(6)));
+			}
+		} catch (ClassNotFoundException exception) {
+		exception.printStackTrace();
+		}
+		 catch (SQLException exception) {
+			exception.printStackTrace();
+		}
+		finally {
+			databaseLoadFlag = true;
+			System.out.println("Database Connected :");
+		}
 	}
 	
 }

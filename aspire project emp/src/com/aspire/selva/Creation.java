@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.time.DateTimeException;
 import java.util.regex.Pattern;
 
-public class Creation extends Employee{
+public class Creation{
 	
 	String createUser(){
 		String employeeID = null, employeeName = null, dateOfBirth = null, dateOfJoin = null, phoneNumber = null, email = null;
@@ -22,7 +22,6 @@ public class Creation extends Employee{
 			{
 				try
 				{
-
 					//System.out.println("Enter Employee ID Like ACE Followed By Four Digit (ACE1234) :");
 					employeeID = scanner.nextLine();
 					if(valitation.checkEmpId(employeeID))
@@ -40,7 +39,6 @@ public class Creation extends Employee{
 					System.out.println("No Input Entered :");
 					return null;
 				}
-				
 			}
 		
 			System.out.println("Enter Employee Name :");
@@ -54,7 +52,6 @@ public class Creation extends Employee{
 					{
 						break;
 					}
-					
 				}
 				catch(NoSuchElementException exception)
 				{
@@ -92,7 +89,6 @@ public class Creation extends Employee{
 					System.out.println("Invalid Input :");
 					return null;
 				}
-				
 				catch(IndexOutOfBoundsException exception)
 				{
 					System.out.println("Enter all the details like year,month,day in yyyy-mm-dd format :");
@@ -179,8 +175,8 @@ public class Creation extends Employee{
 				}
 			}
 			
-		new Employee(employeeID, employeeName, dateOfBirth, dateOfJoin, phoneNumber, email);
-		//EmployeeArrayList.add(new Employee(employeeID, employeeName, dateOfBirth, dateOfJoin, phoneNumber, email));
+		//new Employee(employeeID, employeeName, dateOfBirth, dateOfJoin, phoneNumber, email);
+		Employee.EmployeeArrayList.add(new Employee(employeeID, employeeName, dateOfBirth, dateOfJoin, phoneNumber, email));
 		return employeeID;
 		//scan.close();
 	}
@@ -348,7 +344,6 @@ class Checking implements Valitation
 
 	public boolean checkEmail(String mail) {
 		
-			
 		if(Pattern.matches(".*@.*", mail))	
 		{
 			if(Pattern.matches(".*[a-zA-Z0-9]@.*", mail))

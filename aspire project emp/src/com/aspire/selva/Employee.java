@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Employee {
-	//logs ArrayList
+	//logs ArrayList.
 	static ArrayList<String> arrayList = new ArrayList<>();
 	static int noOfLogs = 0;
 	 

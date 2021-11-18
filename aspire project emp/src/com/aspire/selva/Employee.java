@@ -11,7 +11,7 @@ public class Employee {
 	public  static ArrayList<Employee> EmployeeArrayList = new ArrayList<Employee>();
 	private String employeeID, employeeName, employeeDateOfBirth, employeeDateOfJoin, employeePhoneNumber,employeeEmailID;
 	
-	//default constructor
+	//default constructor.
 	Employee()
 	{
 		//

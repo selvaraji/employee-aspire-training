@@ -8,16 +8,16 @@ import java.util.regex.Pattern;
 
 public class Creation{
 	
-	String createUser(){
+	String createUser(){ 
 		String employeeID = null, employeeName = null, dateOfBirth = null, dateOfJoin = null, phoneNumber = null, email = null;
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		Valitation valitation = new Checking();
-		System.out.println("************************************************");
+		System.out.println("*******************************************************************");
 		System.out.println("Enter Employee Details :");
-		System.out.println("************************************************");		
+		System.out.println("*******************************************************************");		
 		
-		System.out.println("Enter Employee ID Like ACE Followed By Four Digit (ACE1234) :");
+		System.out.println("Enter Employee ID Like ACE Followed By Four Digit \"ACE1234\" :");
 			for(;;)
 			{
 				try
@@ -64,7 +64,7 @@ public class Creation{
 				}
 			}
 		
-			System.out.println("Enter Employee Date Of Birth In (yyyy-mm-dd) Format :");
+			System.out.println("Enter Employee Date Of Birth In \"yyyy-mm-dd\" Format :");
 			for(;;)
 			{
 				try
@@ -78,11 +78,11 @@ public class Creation{
 				}
 				catch(DateTimeException exception)
 				{
-					System.out.println("You Have Entered Invalid Date :");
+					System.out.println("You Have Entered Invalid Date , Check Again And Enter \"yyyy-mm-dd\" This Format :");
 				}
 				catch(NumberFormatException exception)
 				{
-					System.out.println("You Have Entered  Invalid Date Format. Try yyyy-mm-dd Format :");
+					System.out.println("You Have Entered  Invalid Date Format. Try \"yyyy-mm-dd\" Format :");
 				}
 				catch(NoSuchElementException exception)
 				{
@@ -91,19 +91,18 @@ public class Creation{
 				}
 				catch(IndexOutOfBoundsException exception)
 				{
-					System.out.println("Enter all the details like year,month,day in yyyy-mm-dd format :");
+					System.out.println("Enter all the details like year,month,day in \"yyyy-mm-dd\" format :");
 				}
-				
 			}
 		
-			System.out.println("Enter Employee Date Of Join In (yyyy-mm-dd) Format :");
+			System.out.println("Enter Employee Date Of Join In \"yyyy-mm-dd\" Format :");
 			for(;;)
 			{
 				try
 				{
 					//System.out.println("Enter Employee Date Of Join In (yyyy-mm-dd) Format :");
 					dateOfJoin = scanner.nextLine();
-					if(valitation.checkDOJ(dateOfJoin))
+					if(valitation.checkDOJ(dateOfJoin, dateOfBirth))
 					{
 						break;
 					}
@@ -114,7 +113,7 @@ public class Creation{
 				}
 				catch(NumberFormatException exception)
 				{
-					System.out.println("You Have Entered Invalid Date Format. Enter yyyy-mm-dd Format :");
+					System.out.println("You Have Entered Invalid Date Format. Enter \"yyyy-mm-dd\" Format :");
 				}
 				catch(NoSuchElementException exception)
 				{
@@ -123,7 +122,7 @@ public class Creation{
 				}
 				catch(IndexOutOfBoundsException exception)
 				{
-					System.out.println("Enter all the details like year,month,day in yyyy-mm-dd format :");
+					System.out.println("Enter all the details like year,month,day in \"yyyy-mm-dd\" format :");
 				}
 				
 			}
@@ -175,17 +174,17 @@ public class Creation{
 				}
 			}
 			
-		//new Employee(employeeID, employeeName, dateOfBirth, dateOfJoin, phoneNumber, email);
+		//constructor call and add data into Linked List
 		Employee.employeeLinkedList.add(new Employee(employeeID, employeeName, dateOfBirth, dateOfJoin, phoneNumber, email));
 		return employeeID;
-		//scan.close();
 	}
 }
 
 interface Valitation
 {
+	//Validation Method Signatures
 	public boolean checkPno(String phoneNo);
-	public boolean checkDOJ(String doj);
+	public boolean checkDOJ(String doj, String dob);
 	public boolean checkDOB(String dob);
 	public boolean checkName(String name);
 	public boolean checkEmpId(String id);
@@ -195,49 +194,25 @@ interface Valitation
 
 class Checking implements Valitation
 {
+	//Validation Method Implementations
 	
-	public boolean checkPno(String phoneNo)
+	public boolean checkEmpId(String employeeID)
 	{
-			if(Pattern.matches("^[6-9].*", phoneNo))
-				{
-					if(phoneNo.length() == 10)
-					{
-						if(Pattern.matches("^\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$", phoneNo))
-						{
-							return true;
-						}
-						else
-						{
-							System.out.println("Phone Number Contains Only Digits , Not Allowed Any Alphabets and Special Characters : : ");
-							return false;
-						}
-					}
-					else if(phoneNo.length() == 0)
-					{
-						System.out.println("No Input Entered :");
-						return false;
-					}
-					else
-						{
-						 	System.out.println("Phone Number Allowed Exactly 10 Digits Only :");
-							return false;
-						}
-				}
-			else 
-			{
-				System.out.println("Phone Number Should Starts With 6, 7, 8, 9 :");
+		employeeID = employeeID.toLowerCase();
+
+		for(Employee employee : Employee.employeeLinkedList)
+		{
+			if(employee.getEmpID().equals(employeeID)) {
+				System.out.println("Employee ID Already Available In Database Try Unique :");
 				return false;
 			}
-	}
-	
-	public boolean checkEmpId(String id)
-	{
-
-		if(id.length() == 7)
+		}
+		
+		if(employeeID.length() == 7)
 		{
-			if(Pattern.matches("^ace.*", id))
+			if(Pattern.matches("^ace.*", employeeID))
 			{
-				if(Pattern.matches(".*\\d\\d\\d\\d$",id))
+				if(Pattern.matches(".*\\d\\d\\d\\d$",employeeID))
 				{
 					return true;
 				}
@@ -246,29 +221,31 @@ class Checking implements Valitation
 					System.out.println("Employee ID Ends With 4 Digits :");
 					return false;
 				}
-				
 			}
 			else
 			{
-				System.out.println("Employee ID Starts With ACE Pattern :");
+				System.out.println("Employee ID Starts With \"ACE\" Pattern :");
 				return false;
 			}
 		}
 		else
 		{
-			System.out.println("Employee ID Must Be 7 Letters :");
+			System.out.println("Employee ID Must Be 7 Letters Only :");
 			return false;
 		}
+		
 	}
 	
-	public boolean checkName(String name)
+	public boolean checkName(String employeeName)
 	{
-		char repeat = name.charAt(0);
+		try
+		{
+		char repeat = employeeName.charAt(0);
 		int count = 0;
-		if(Pattern.matches("[a-zA-Z]*", name))
-			for(int index = 1; index <name.length(); index++)
+		if(Pattern.matches("[a-zA-Z]*", employeeName))
+			for(int index = 1; index <employeeName.length(); index++)
 			{
-				char nameChar = name.charAt(index);
+				char nameChar = employeeName.charAt(index);
 				if(repeat == nameChar)
 					count++;
 				else
@@ -287,22 +264,29 @@ class Checking implements Valitation
 			System.out.println("Only Alphabets Are Allowed, Special Characters And Numbers Are Not Allowed :");
 			return false;
 		}
+		}
+		catch(StringIndexOutOfBoundsException exception )
+		{
+			System.out.println("No Input Entered :");
+		}
 		return true;
 	}
 	
-	public boolean checkDOB(String dob)
+	public boolean checkDOB(String employeeDateOfBirth)
 	{
-		String[] dobArray = dob.split("-");
-		LocalDate date1 = LocalDate.now();
-		LocalDate date2 = LocalDate.of(Integer.parseInt(dobArray[0]), Integer.parseInt(dobArray[1]), Integer.parseInt(dobArray[2]));
+		try
+		{
+		String[] dobArray = employeeDateOfBirth.split("-");
+		LocalDate currentDate = LocalDate.now();
+		LocalDate dateOfBirth = LocalDate.of(Integer.parseInt(dobArray[0]), Integer.parseInt(dobArray[1]), Integer.parseInt(dobArray[2]));
 		
-		if((date1.getYear() - date2.getYear()) >18 && (date1.getYear() - date2.getYear()) <=60 )
+		if((currentDate.getYear() - dateOfBirth.getYear()) >18 && (currentDate.getYear() - dateOfBirth.getYear()) <=60 )
 		{
 			return true;
 		}
-		else if(date1.getYear() - date2.getYear() >= 17)
+		else if(currentDate.getYear() - dateOfBirth.getYear() >= 17)
 		{
-			if(date1.getDayOfYear() <= date2.getDayOfYear())
+			if(currentDate.getDayOfYear() <= dateOfBirth.getDayOfYear())
 			{
 				return true;
 			}
@@ -312,20 +296,29 @@ class Checking implements Valitation
 				return false;
 			}
 		}
-		System.out.println("Age Must Be Between 18 To 60 :");
+		System.out.println("Age Must Be Between \"18 To 60\" :");
+		}
+		catch(IndexOutOfBoundsException exception )
+		{
+			System.out.println("Enter all the details like year,month,day in \"yyyy-mm-dd\" format :");
+		}
 		return false;
 	}
 	
-	public boolean checkDOJ(String doj)
+	public boolean checkDOJ(String employeeDateOfJoin, String employeeDateOfBirth)
 	{
-		String[] dojArray = doj.split("-");
-		LocalDate currentDate = LocalDate.now();
-		LocalDate dateOfJoin = LocalDate.of(Integer.parseInt(dojArray[0]), Integer.parseInt(dojArray[1]), Integer.parseInt(dojArray[2]));
-		if((currentDate.getYear() > dateOfJoin.getYear()))
+		try
 		{
-			return true;
+		String[] dojArray = employeeDateOfJoin.split("-");
+		String[] dobArray = employeeDateOfBirth.split("-");
+		LocalDate currentDate = LocalDate.now();
+		LocalDate dateOfBirth = LocalDate.of(Integer.parseInt(dobArray[0]), Integer.parseInt(dobArray[1]), Integer.parseInt(dobArray[2]));
+		LocalDate dateOfJoin = LocalDate.of(Integer.parseInt(dojArray[0]), Integer.parseInt(dojArray[1]), Integer.parseInt(dojArray[2]));
+		if((dateOfJoin.getYear() - dateOfBirth.getYear()) <= 14)
+		{
+			System.out.println("Date Of Join Not Aceptable As Per \"Law In INDIA\"\n Enter Valid Date Of Join :");
+			return false;
 		}
-		
 		else if(currentDate.getYear() == dateOfJoin.getYear())
 		{
 			if(currentDate.getDayOfYear() >= dateOfJoin.getDayOfYear())
@@ -338,39 +331,116 @@ class Checking implements Valitation
 				return false;
 			}
 		}
+		else if(currentDate.getYear() > dateOfJoin.getYear())
+		{
+			return true;
+		}
 		System.out.println("Future Dates Are Not Possible :");
+		}
+		catch(IndexOutOfBoundsException exception )
+		{
+			System.out.println("Enter all the details like YEAR, MONTH, DAY In \"yyyy-mm-dd\" format :");
+		} 
 		return false;
 	}
 
-	public boolean checkEmail(String mail) {
-		
-		if(Pattern.matches(".*@.*", mail))	
-		{
-			if(Pattern.matches(".*[a-zA-Z0-9]@.*", mail))
-			{
-				if(Pattern.matches("^.*@[a-zA-Z]*[.][a-zA-Z].*$", mail))
+	
+	public boolean checkPno(String phoneNo)
+	{
+			if(Pattern.matches("^[6-9].*", phoneNo))
 				{
-					return true;
+					if(phoneNo.length() == 10)
+					{
+						if(Pattern.matches("^\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d$", phoneNo))
+						{
+							return true;
+						}
+						else
+						{
+							System.out.println("Phone Number Contains Only Digits , Not Allowed Any Alphabets and Special Characters :");
+							return false;
+						}
+					}
+					else if(phoneNo.length() == 0)
+					{
+						System.out.println("No Input Entered :");
+						return false;
+					}
+					else
+						{
+						 	System.out.println("Phone Number Must Be 10 Digits Only :");
+							return false;
+						}
 				}
+			else 
+			{
+				System.out.println("Phone Number Should Starts With \"6, 7, 8, 9\" :");
+				return false;
+			}
+	}
+	
+	public boolean checkEmail(String employeeEmail)
+	{
+		try
+		{
+			char repeat = employeeEmail.charAt(0);
+			int count = 0;
+			for(int index = 1; index <employeeEmail.length(); index++)
+			{
+				char nameChar = employeeEmail.charAt(index);
+				if(repeat == nameChar)
+					count++;
 				else
 				{
-					System.out.println("Invalid Domain Name :");
+					count = 0;
+					repeat = nameChar;
+				}
+				if(count == 2)
+				{
+					System.out.println("More Then Two Repeated Characters Are Not Allowed :");
 					return false;
 				}
 			}
-			else
+		
+			if(Pattern.matches(".*@@.*", employeeEmail) || (Pattern.matches(".*.@.*.@.*", employeeEmail)))
 			{
-				System.out.println("Email Not Allowed Special Characters Other Then @ :");
+				System.out.println("Email Contains Only One \"@\" Symbol");
 				return false;
 			}
+				
+			if(Pattern.matches(".*@.*", employeeEmail))	
+			{
+				if(Pattern.matches(".*[a-zA-Z0-9]@.*", employeeEmail))
+				{
+					if(Pattern.matches("^.*@[a-zA-Z]*[.][a-zA-Z].*$", employeeEmail))
+					{
+						return true;
+					}
+					else
+					{
+						System.out.println("Invalid Domain Name :");
+						return false;
+					}
+				}
+				else
+				{
+					System.out.println("Email Not Allowed Special Characters Other Then \"@\" :");
+					return false;
+				}
+			}
+			else if(employeeEmail.length() == 0)
+			{
+				System.out.println("No Input Entered :");
+			}
+			else
+			{
+				System.out.println("Email Must Contain \"@\" Symbol :");
+			}
 		}
-		else if(mail.length() == 0)
+		catch(IndexOutOfBoundsException exception )
 		{
 			System.out.println("No Input Entered :");
 		}
-		{
-			System.out.println("Email Must Contain @ Symbol :");
-			return false;
-		}
+		return false;
 	}
 }
